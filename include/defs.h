@@ -23,7 +23,7 @@
 
 typedef unsigned long long U64;
 
-#define NAME "C-Chess 1.0"
+#define NAME "cengine 0.1"
 #define BOARD_NUM_SQ 120
 
 #define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
