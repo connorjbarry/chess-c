@@ -1,0 +1,25 @@
+CC=gcc
+CFLAGS=-Wall -Wextra -pedantic -std=c11 -O2 
+
+SRC_DIR = src
+BUILD_DIR = bin
+
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+
+TARGET = $(BUILD_DIR)/cengine
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+run: $(TARGET)
+	./$(TARGET) $(ARGS)
+
+clean:
+	rm -f $(TARGET) $(BUILD_DIR)/*.o
+

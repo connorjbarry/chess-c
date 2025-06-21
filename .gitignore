@@ -1,0 +1,10 @@
+*.o
+*.exe
+*.out
+*.bak
+*.swp
+*.tmp
+/bin/
+.vscode/
+*.code-workspace
+*.DS_Store
