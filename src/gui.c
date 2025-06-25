@@ -208,22 +208,16 @@ void draw_square(GUI_STATE *state, int file, int rank) {
 
   SDL_Rect square = {x, y, SQUARE_SIZE, SQUARE_SIZE};
 
-  // Base square color
-  SDL_Color color = ((display_file + display_rank) % 2 == 0)
-                        ? (SDL_Color)COLOR_LIGHT_SQUARE
-                        : (SDL_Color)COLOR_DARK_SQUARE;
-
-  SDL_SetRenderDrawColor(state->renderer, color.r, color.g, color.b, color.a);
+  SDL_Color base_color = ((display_file + display_rank) % 2 == 0)
+                             ? (SDL_Color)COLOR_LIGHT_SQUARE
+                             : (SDL_Color)COLOR_DARK_SQUARE;
+  SDL_SetRenderDrawColor(state->renderer, base_color.r, base_color.g,
+                         base_color.b, base_color.a);
   SDL_RenderFillRect(state->renderer, &square);
 
-  if (sq120 == state->selected_sq) {
-    SDL_Color sel_color = COLOR_SELECTED;
-    SDL_SetRenderDrawColor(state->renderer, sel_color.r, sel_color.g,
-                           sel_color.b, sel_color.a);
-    SDL_RenderFillRect(state->renderer, &square);
-  }
+  SDL_SetRenderDrawBlendMode(state->renderer, SDL_BLENDMODE_BLEND);
 
-  // Highlight last move
+  // Last move
   if (sq120 == state->last_from_sq || sq120 == state->last_to_sq) {
     SDL_Color last_color = COLOR_LAST_MOVE;
     SDL_SetRenderDrawColor(state->renderer, last_color.r, last_color.g,
@@ -231,7 +225,15 @@ void draw_square(GUI_STATE *state, int file, int rank) {
     SDL_RenderFillRect(state->renderer, &square);
   }
 
-  // Highlight legal moves
+  // Selected square
+  if (sq120 == state->selected_sq) {
+    SDL_Color sel_color = COLOR_SELECTED;
+    SDL_SetRenderDrawColor(state->renderer, sel_color.r, sel_color.g,
+                           sel_color.b, sel_color.a);
+    SDL_RenderFillRect(state->renderer, &square);
+  }
+
+  // Legal moves
   if (state->show_legal_moves && state->selected_sq != NO_SQ) {
     if (_is_legal_move(state, state->selected_sq, sq120)) {
       SDL_Color legal_color = COLOR_LEGAL_MOVE;
@@ -251,6 +253,8 @@ void draw_square(GUI_STATE *state, int file, int rank) {
       SDL_RenderFillRect(state->renderer, &square);
     }
   }
+
+  SDL_SetRenderDrawBlendMode(state->renderer, SDL_BLENDMODE_NONE);
 }
 
 void render_text(GUI_STATE *state, const char *text, int x, int y,

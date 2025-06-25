@@ -21,10 +21,12 @@
 // Colors
 #define COLOR_LIGHT_SQUARE {240, 217, 181, 255}
 #define COLOR_DARK_SQUARE {181, 136, 99, 255}
-#define COLOR_SELECTED {255, 255, 0, 150}
-#define COLOR_LEGAL_MOVE {0, 255, 0, 100}
-#define COLOR_LAST_MOVE {0, 255, 255, 100}
-#define COLOR_CHECK {255, 0, 0, 150}
+// Update color scheme - START
+#define COLOR_SELECTED {255, 255, 0, 100}
+#define COLOR_LEGAL_MOVE {0, 200, 0, 100}
+#define COLOR_LAST_MOVE {66, 133, 244, 80}
+#define COLOR_CHECK {255, 0, 0, 100}
+// END
 #define COLOR_WHITE {255, 255, 255, 255}
 #define COLOR_BLACK {0, 0, 0, 255}
 #define COLOR_BACKGROUND {45, 45, 45, 255}
