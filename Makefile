@@ -3,7 +3,7 @@ SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 
 CFLAGS = -Wall -Wextra -pedantic -std=c11 -O2 $(SDL_CFLAGS) -Iinclude
-LDFLAGS = $(SDL_LDFLAGS) -lSDL2_image
+LDFLAGS = $(SDL_LDFLAGS) -lSDL2_image -lSDL2_ttf
 
 SRC_DIR = src
 BUILD_DIR = bin

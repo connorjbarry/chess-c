@@ -8,7 +8,7 @@ int main(void) {
 
   S_BOARD *board = gen_board();
   S_SEARCHINFO info[1];
-  GUI_STATE gui[1];
+  GUI_STATE gui = {0};
 
   printf("Welcome to cengine! Type 'cengine' for console mode...\n");
 
@@ -43,18 +43,21 @@ int main(void) {
       }
       continue;
     } else if (!strncmp(line, "gui", 3)) {
-      gui->board = board;
+      parse_fen(START_FEN, board);
+      gui.board = board;
 
-      if (!init_gui(gui)) {
+      if (!init_gui(&gui)) {
         break;
       }
 
-      while (gui->running) {
-        printf("gui running");
-        SDL_Delay(16);
-      }
+      printf("\ncengine GUI started. Press ESC or close window "
+             "to exit.\n");
 
-      cleanup_gui(gui);
+      gui_game_loop(&gui);
+
+      cleanup_gui(&gui);
+      printf("GUI closed. Exiting...\n");
+      break;
     } else if (!strncmp(line, "quit", 4)) {
       break;
     }
