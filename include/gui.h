@@ -18,7 +18,17 @@
 #define COLOR_WHITE {255, 255, 255, 255}
 
 typedef struct {
+  SDL_Window *window;
+  SDL_Renderer *renderer;
+  SDL_Texture *piece_textrues[13];
+
+  S_BOARD *board;
+
+  int running;
 
 } GUI_STATE;
+
+extern int init_gui(GUI_STATE *state);
+extern void cleanup_gui(GUI_STATE *state);
 
 #endif

@@ -1,4 +1,5 @@
-#include "../include/defs.h"
+#include "defs.h"
+#include "gui.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -7,6 +8,7 @@ int main(void) {
 
   S_BOARD *board = gen_board();
   S_SEARCHINFO info[1];
+  GUI_STATE gui[1];
 
   printf("Welcome to cengine! Type 'cengine' for console mode...\n");
 
@@ -40,6 +42,19 @@ int main(void) {
         break;
       }
       continue;
+    } else if (!strncmp(line, "gui", 3)) {
+      gui->board = board;
+
+      if (!init_gui(gui)) {
+        break;
+      }
+
+      while (gui->running) {
+        printf("gui running");
+        SDL_Delay(16);
+      }
+
+      cleanup_gui(gui);
     } else if (!strncmp(line, "quit", 4)) {
       break;
     }

@@ -118,5 +118,265 @@
     "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
     "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/gui.c",
     "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/gui.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/hashkeys.o",
+      "src/hashkeys.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/hashkeys.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/hashkeys.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/init.o",
+      "src/init.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/init.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/io.o",
+      "src/io.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/io.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/io.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/main.o",
+      "src/main.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/main.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/misc.o",
+      "src/misc.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/misc.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/misc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/move.o",
+      "src/move.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/move.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/move.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/movegen.o",
+      "src/movegen.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/movegen.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/movegen.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/perft.o",
+      "src/perft.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/perft.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/perft.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/pvt.o",
+      "src/pvt.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/pvt.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/pvt.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/search.o",
+      "src/search.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/search.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/search.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/uci.o",
+      "src/uci.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/uci.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/uci.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/validate.o",
+      "src/validate.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/validate.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/validate.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c11",
+      "-O2",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "bin/xboard.o",
+      "src/xboard.c"
+    ],
+    "directory": "/Users/connorbarry/personal/dev/chess/c-chess",
+    "file": "/Users/connorbarry/personal/dev/chess/c-chess/src/xboard.c",
+    "output": "/Users/connorbarry/personal/dev/chess/c-chess/bin/xboard.o"
   }
 ]
