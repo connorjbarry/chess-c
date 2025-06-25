@@ -256,19 +256,38 @@ void search_position(S_BOARD *pos, S_SEARCHINFO *info) {
     printf("Depth: %d :: score: %d :: move: %s :: nodes: %ld ", current_depth,
            best_score, move_to_string(best_move), info->nodes);
 #else
-    printf("info score cp %d depth %d nodes %ld time %llu ", best_score,
-           current_depth, info->nodes, get_time_ms() - info->starttime);
+    if (info->game_mode == UCI) {
+      printf("info score cp %d depth %d nodes %ld time %llu ", best_score,
+             current_depth, info->nodes, get_time_ms() - info->starttime);
+    } else if (info->game_mode == XBOARD && info->post_thinking == TRUE) {
+      printf("%d %d %lld %ld", current_depth, best_score,
+             (get_time_ms() - info->starttime) / 10, info->nodes);
+    } else if (info->post_thinking == TRUE) {
+      printf("score: %d depth: %d nodes: %ld time: %lld(ms)", best_score,
+             current_depth, info->nodes, get_time_ms() - info->starttime);
+    }
+
 #endif
 
-    pv_moves = get_pvline(pos, current_depth);
-
-    printf("pv");
-    for (pv_num = 0; pv_num < pv_moves; ++pv_num) {
-      printf(" %s", move_to_string(pos->pv_arr[pv_num]));
+    if (info->game_mode == UCI || info->post_thinking == TRUE) {
+      pv_moves = get_pvline(pos, current_depth);
+      printf("pv");
+      for (pv_num = 0; pv_num < pv_moves; ++pv_num) {
+        printf(" %s", move_to_string(pos->pv_arr[pv_num]));
+      }
+      printf("\n");
+      // printf("Ordering: %.2f\n", (info->fhf / info->fh));
     }
-    printf("\n");
-    // printf("Ordering: %.2f\n", (info->fhf / info->fh));
   }
 
-  printf("bestmove %s\n", move_to_string(best_move));
+  if (info->game_mode == UCI) {
+    printf("bestmove %s\n", move_to_string(best_move));
+  } else if (info->game_mode == XBOARD) {
+    printf("move %s\n", move_to_string(best_move));
+    make_move(pos, best_move);
+  } else {
+    printf("\n----! cengine makes move %s !----\n", move_to_string(best_move));
+    make_move(pos, best_move);
+    print_board(pos);
+  }
 }

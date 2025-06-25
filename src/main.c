@@ -1,58 +1,49 @@
 #include "../include/defs.h"
 #include <stdio.h>
-#include <stdlib.h>
-
-#define WAC1                                                                   \
-  "r1b1k2r/ppppnppp/2n2q2/2b5/3NP3/2P1B3/PP3PPP/RN1QKB1R w KQkq - 0 1"
+#include <string.h>
 
 int main(void) {
   init();
 
-  uci_loop();
-  /**
   S_BOARD *board = gen_board();
-  S_MOVELIST m_list[1];
   S_SEARCHINFO info[1];
 
-  // parse_fen(START_FEN, board);
-  parse_fen(WAC1, board);
+  printf("Welcome to cengine! Type 'cengine' for console mode...\n");
 
-  char input[6];
-  int move = NOMOVE;
-  int pv_num = 0;
-  int max = 0;
+  char line[256];
 
   while (TRUE) {
-    print_board(board);
+    memset(&line[0], 0, sizeof(line));
 
-    printf("Please enter a move > ");
-    fgets(input, 6, stdin);
-
-    if (input[0] == 'q') {
-      break;
-    } else if (input[0] == 't') {
-      undo_move(board);
+    fflush(stdout);
+    if (!fgets(line, 256, stdin)) {
       continue;
-    } else if (input[0] == 'p') {
-      perft_test(board, 4);
-    } else if (input[0] == 's') {
-      info->depth = 6;
-      info->starttime = get_time_ms();
-      info->stoptime = get_time_ms() + 200000;
-      search_position(board, info);
-    } else {
-      move = parse_move(board, input);
-      if (move != NOMOVE) {
-        store_pvmove(board, move);
-        make_move(board, move);
-      } else {
-        printf("Invalid move");
-      }
     }
-
-    fflush(stdin);
+    if (line[0] == '\n') {
+      continue;
+    }
+    if (!strncmp(line, "uci", 3)) {
+      uci_loop(board, info);
+      if (info->quit == TRUE) {
+        break;
+      }
+      continue;
+    } else if (!strncmp(line, "xboard", 6)) {
+      xboard_loop(board, info);
+      if (info->quit == TRUE) {
+        break;
+      }
+      continue;
+    } else if (!strncmp(line, "cengine", 7)) {
+      console_loop(board, info);
+      if (info->quit == TRUE) {
+        break;
+      }
+      continue;
+    } else if (!strncmp(line, "quit", 4)) {
+      break;
+    }
   }
-  */
 
   return 0;
 }

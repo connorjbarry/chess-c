@@ -105,7 +105,8 @@ void parse_position(char *line_in, S_BOARD *pos) {
   print_board(pos);
 }
 
-void uci_loop(void) {
+void uci_loop(S_BOARD *pos, S_SEARCHINFO *info) {
+  info->game_mode = UCI;
   setbuf(stdin, NULL);
   setbuf(stdout, NULL);
 
@@ -115,7 +116,6 @@ void uci_loop(void) {
   printf("uciok\n");
 
   S_BOARD *board = gen_board();
-  S_SEARCHINFO info[1];
   info->quit = FALSE;
 
   while (TRUE) {

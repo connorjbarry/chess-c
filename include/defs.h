@@ -3,7 +3,6 @@
 
 #include "stdio.h"
 #include "stdlib.h"
-#include <sys/_types/_u_int64_t.h>
 
 // #define DEBUG
 
@@ -59,6 +58,7 @@ enum {
   RANK_NONE
 };
 enum { WHITE, BLACK, BOTH };
+enum { UCI, XBOARD, CONSOLE };
 enum {
   A1 = 21,
   B1,
@@ -233,6 +233,9 @@ typedef struct {
   float fh;
   // number of times first move in the list caused that cutoff
   float fhf;
+
+  int game_mode;
+  int post_thinking;
 } S_SEARCHINFO;
 
 /* GAME MOVE */
@@ -398,6 +401,10 @@ extern void clear_pvtable(S_PVTABLE *pvt);
 extern int eval_pos(const S_BOARD *pos);
 
 // uci.c
-extern void uci_loop(void);
+extern void uci_loop(S_BOARD *pos, S_SEARCHINFO *info);
+
+// xboard.c
+extern void xboard_loop(S_BOARD *pos, S_SEARCHINFO *info);
+extern void console_loop(S_BOARD *pos, S_SEARCHINFO *info);
 
 #endif
