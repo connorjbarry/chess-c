@@ -1,6 +1,4 @@
 #include "../include/gui.h"
-#include "SDL_mouse.h"
-#include "SDL_ttf.h"
 #include "defs.h"
 
 const char *piece_images[] = {NULL,
@@ -96,6 +94,250 @@ int _is_legal_move(GUI_STATE *state, int from_sq, int to_sq) {
     }
   }
   return 0;
+}
+
+/******************
+ * BUTTON CALLBACKS *
+ ******************/
+
+void start_user_vs_user(GUI_STATE *gui) {
+  gui->w_player = PLAYER;
+  gui->b_player = PLAYER;
+  gui->show_start_screen = 0;
+  strcpy(gui->status_message, "User vs User - White to move");
+}
+
+void start_user_vs_engine(GUI_STATE *gui) {
+  gui->w_player = PLAYER;
+  gui->b_player = ENGINE;
+  gui->show_start_screen = 0;
+  strcpy(gui->status_message, "User vs Engine - You are White");
+}
+
+/******************
+ * START SCREEN   *
+ ******************/
+
+void init_start_screen(GUI_STATE *state) {
+  state->show_start_screen = 1;
+
+  // Initialize title font
+  state->title_font = TTF_OpenFont("arial.ttf", 48);
+  if (!state->title_font) {
+    state->title_font =
+        TTF_OpenFont("/System/Library/Fonts/Supplemental/Arial.ttf", 48);
+  }
+  if (!state->title_font) {
+    // Fallback to regular font with larger size
+    state->title_font = state->font;
+  }
+
+  // Initialize buttons
+  int center_x = WINDOW_WIDTH / 2;
+  int start_y = WINDOW_HEIGHT / 2 - 30;
+
+  // User vs User button
+  state->start_buttons[0].x = center_x - BUTTON_WIDTH / 2;
+  state->start_buttons[0].y = start_y;
+  state->start_buttons[0].w = BUTTON_WIDTH;
+  state->start_buttons[0].h = BUTTON_HEIGHT;
+  strcpy(state->start_buttons[0].text, "User vs User");
+  state->start_buttons[0].hovered = 0;
+  state->start_buttons[0].callback = start_user_vs_user;
+
+  // User vs Engine button
+  state->start_buttons[1].x = center_x - BUTTON_WIDTH / 2;
+  state->start_buttons[1].y = start_y + BUTTON_HEIGHT + BUTTON_SPACING;
+  state->start_buttons[1].w = BUTTON_WIDTH;
+  state->start_buttons[1].h = BUTTON_HEIGHT;
+  strcpy(state->start_buttons[1].text, "User vs Engine");
+  state->start_buttons[1].hovered = 0;
+  state->start_buttons[1].callback = start_user_vs_engine;
+}
+
+void draw_start_button(GUI_STATE *state, Button *button) {
+  SDL_Rect button_rect = {button->x, button->y, button->w, button->h};
+
+  // Choose color based on hover state
+  SDL_Color bg_color = button->hovered ? (SDL_Color)COLOR_BUTTON_HOVER_START
+                                       : (SDL_Color)COLOR_BUTTON_NORMAL;
+
+  // Draw button background
+  SDL_SetRenderDrawColor(state->renderer, bg_color.r, bg_color.g, bg_color.b,
+                         bg_color.a);
+  SDL_RenderFillRect(state->renderer, &button_rect);
+
+  // Draw button border
+  SDL_SetRenderDrawColor(state->renderer, 150, 150, 150, 255);
+  SDL_RenderDrawRect(state->renderer, &button_rect);
+
+  // Draw button text
+  if (state->font) {
+    SDL_Color text_color = COLOR_BUTTON_TEXT;
+    SDL_Surface *text_surface =
+        TTF_RenderText_Blended(state->font, button->text, text_color);
+
+    if (text_surface) {
+      SDL_Texture *text_texture =
+          SDL_CreateTextureFromSurface(state->renderer, text_surface);
+
+      if (text_texture) {
+        // Center text in button
+        int text_x = button->x + (button->w - text_surface->w) / 2;
+        int text_y = button->y + (button->h - text_surface->h) / 2;
+
+        SDL_Rect text_rect = {text_x, text_y, text_surface->w, text_surface->h};
+        SDL_RenderCopy(state->renderer, text_texture, NULL, &text_rect);
+
+        SDL_DestroyTexture(text_texture);
+      }
+      SDL_FreeSurface(text_surface);
+    }
+  }
+}
+
+void render_start_screen(GUI_STATE *state) {
+  // Clear screen with menu background
+  SDL_Color bg = COLOR_MENU_BG;
+  SDL_SetRenderDrawColor(state->renderer, bg.r, bg.g, bg.b, bg.a);
+  SDL_RenderClear(state->renderer);
+
+  // Draw title
+  SDL_Color title_color = COLOR_TITLE;
+  const char *title_text = "Chess Engine";
+
+  TTF_Font *font_to_use = state->title_font ? state->title_font : state->font;
+  if (font_to_use) {
+    SDL_Surface *title_surface =
+        TTF_RenderText_Blended(font_to_use, title_text, title_color);
+
+    if (title_surface) {
+      SDL_Texture *title_texture =
+          SDL_CreateTextureFromSurface(state->renderer, title_surface);
+
+      if (title_texture) {
+        int title_x = (WINDOW_WIDTH - title_surface->w) / 2;
+        int title_y = TITLE_Y_OFFSET;
+
+        SDL_Rect title_rect = {title_x, title_y, title_surface->w,
+                               title_surface->h};
+        SDL_RenderCopy(state->renderer, title_texture, NULL, &title_rect);
+
+        SDL_DestroyTexture(title_texture);
+      }
+      SDL_FreeSurface(title_surface);
+    }
+  }
+
+  // Draw subtitle
+  const char *subtitle_text = "Choose Game Mode";
+  if (state->font) {
+    SDL_Surface *subtitle_surface =
+        TTF_RenderText_Blended(state->font, subtitle_text, title_color);
+
+    if (subtitle_surface) {
+      SDL_Texture *subtitle_texture =
+          SDL_CreateTextureFromSurface(state->renderer, subtitle_surface);
+
+      if (subtitle_texture) {
+        int subtitle_x = (WINDOW_WIDTH - subtitle_surface->w) / 2;
+        int subtitle_y = TITLE_Y_OFFSET + 80;
+
+        SDL_Rect subtitle_rect = {subtitle_x, subtitle_y, subtitle_surface->w,
+                                  subtitle_surface->h};
+        SDL_RenderCopy(state->renderer, subtitle_texture, NULL, &subtitle_rect);
+
+        SDL_DestroyTexture(subtitle_texture);
+      }
+      SDL_FreeSurface(subtitle_surface);
+    }
+  }
+
+  // Draw buttons
+  for (int i = 0; i < 2; i++) {
+    draw_start_button(state, &state->start_buttons[i]);
+  }
+
+  // Draw instructions at bottom
+  const char *instruction_text = "Press ESC to quit";
+  if (state->font) {
+    SDL_Color instruction_color = {180, 180, 180, 255};
+    SDL_Surface *instruction_surface = TTF_RenderText_Blended(
+        state->font, instruction_text, instruction_color);
+
+    if (instruction_surface) {
+      SDL_Texture *instruction_texture =
+          SDL_CreateTextureFromSurface(state->renderer, instruction_surface);
+
+      if (instruction_texture) {
+        int instruction_x = (WINDOW_WIDTH - instruction_surface->w) / 2;
+        int instruction_y = WINDOW_HEIGHT - 50;
+
+        SDL_Rect instruction_rect = {instruction_x, instruction_y,
+                                     instruction_surface->w,
+                                     instruction_surface->h};
+        SDL_RenderCopy(state->renderer, instruction_texture, NULL,
+                       &instruction_rect);
+
+        SDL_DestroyTexture(instruction_texture);
+      }
+      SDL_FreeSurface(instruction_surface);
+    }
+  }
+
+  SDL_RenderPresent(state->renderer);
+}
+
+int point_in_button(Button *button, int x, int y) {
+  return x >= button->x && x <= button->x + button->w && y >= button->y &&
+         y <= button->y + button->h;
+}
+
+void handle_start_screen_events(GUI_STATE *state) {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    switch (event.type) {
+    case SDL_QUIT:
+      state->running = 0;
+      break;
+
+    case SDL_KEYDOWN:
+      if (event.key.keysym.sym == SDLK_ESCAPE) {
+        state->running = 0;
+      }
+      break;
+
+    case SDL_MOUSEMOTION:
+      // Update hover states
+      for (int i = 0; i < 2; i++) {
+        state->start_buttons[i].hovered = point_in_button(
+            &state->start_buttons[i], event.motion.x, event.motion.y);
+      }
+      break;
+
+    case SDL_MOUSEBUTTONDOWN:
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        // Check if any button was clicked
+        for (int i = 0; i < 2; i++) {
+          if (point_in_button(&state->start_buttons[i], event.button.x,
+                              event.button.y)) {
+            if (state->start_buttons[i].callback) {
+              state->start_buttons[i].callback(state);
+            }
+            return;
+          }
+        }
+      }
+      break;
+    }
+  }
+}
+
+void cleanup_start_screen(GUI_STATE *state) {
+  if (state->title_font && state->title_font != state->font) {
+    TTF_CloseFont(state->title_font);
+    state->title_font = NULL;
+  }
 }
 
 /***********
@@ -467,11 +709,11 @@ void handle_events(GUI_STATE *state) {
           // start dragging
           if (PieceCol[state->board->pieces[square]] ==
               state->board->turnColor) {
-            state->dragging_piece = 1;
+            // state->dragging_piece = 1;
             state->drag_piece_type = state->board->pieces[square];
             state->drag_start_x = state->mouse_x;
             state->drag_start_y = state->mouse_y;
-            state->selected_sq = square;
+            // state->selected_sq = square;
 
             generate_all_moves(state->board, &state->legal_moves);
           }
@@ -499,6 +741,19 @@ void handle_events(GUI_STATE *state) {
     case SDL_MOUSEMOTION:
       state->mouse_x = event.motion.x;
       state->mouse_y = event.motion.y;
+
+      // Only start dragging if mouse has moved significantly and we have a
+      // selected piece
+      if (state->mouse_down && !state->dragging_piece) {
+        int dx = state->mouse_x - state->drag_start_x;
+        int dy = state->mouse_y - state->drag_start_y;
+        int distance = dx * dx + dy * dy;
+        if (distance > 25) { // 5 pixel threshold squared
+          state->dragging_piece = 1;
+          state->selected_sq = _get_sq_from_coords(
+              state->drag_start_x, state->drag_start_y, state->flip_board);
+        }
+      }
       break;
     }
   }
@@ -574,6 +829,8 @@ int init_gui(GUI_STATE *state) {
   state->mouse_down = 0;
   state->dragging_piece = 0;
   state->running = 1;
+  state->show_start_screen = 1;
+  state->title_font = NULL;
 
   strcpy(state->status_message, "Welcome to Chess Engine");
   strcpy(state->move_history, "");
@@ -600,10 +857,30 @@ void cleanup_gui(GUI_STATE *state) {
   SDL_Quit();
 }
 
-void gui_game_loop(GUI_STATE *state) {
-  while (state->running) {
+void _update_gui_state(GUI_STATE *state) {
+  if (state->show_start_screen) {
+    handle_start_screen_events(state);
+  } else {
     handle_events(state);
+  }
+}
+
+void _render_gui_state(GUI_STATE *state) {
+  if (state->show_start_screen) {
+    render_start_screen(state);
+  } else {
     render(state);
+  }
+}
+
+void gui_game_loop(GUI_STATE *state) {
+  init_start_screen(state);
+
+  while (state->running) {
+    _update_gui_state(state);
+    _render_gui_state(state);
     SDL_Delay(16); // 60 ish fps
   }
+
+  cleanup_start_screen(state);
 }

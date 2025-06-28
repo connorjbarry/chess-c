@@ -18,6 +18,11 @@
 #define SIDEBAR_WIDTH 250
 #define SIDEBAR_X (BOARD_OFFSET_X + BOARD_SIZE + 20)
 
+#define BUTTON_WIDTH 300
+#define BUTTON_HEIGHT 60
+#define BUTTON_SPACING 20
+#define TITLE_Y_OFFSET 150
+
 // Colors
 #define COLOR_LIGHT_SQUARE {240, 217, 181, 255}
 #define COLOR_DARK_SQUARE {181, 136, 99, 255}
@@ -34,10 +39,26 @@
 #define COLOR_BUTTON {80, 80, 80, 255}
 #define COLOR_BUTTON_HOVER {100, 100, 100, 255}
 #define COLOR_TEXT {220, 220, 220, 255}
+#define COLOR_MENU_BG {30, 30, 40, 255}
+#define COLOR_BUTTON_NORMAL {70, 70, 80, 255}
+#define COLOR_BUTTON_HOVER_START {90, 90, 100, 255}
+#define COLOR_BUTTON_TEXT {220, 220, 220, 255}
+#define COLOR_TITLE {255, 255, 255, 255}
 
 extern const char *piece_images[];
 
+enum { PLAYER, ENGINE };
+
+typedef struct GUI_STATE GUI_STATE;
+
 typedef struct {
+  int x, y, w, h;
+  char text[32];
+  int hovered;
+  void (*callback)(GUI_STATE *gui);
+} Button;
+
+typedef struct GUI_STATE {
   SDL_Window *window;
   SDL_Renderer *renderer;
   SDL_Texture *piece_textures[13];
@@ -65,15 +86,22 @@ typedef struct {
   int drag_start_x;
   int drag_start_y;
 
+  int w_player;
+  int b_player;
+
+  int show_start_screen;
+  Button start_buttons[2];
+  TTF_Font *title_font;
+
+  int engine_thinking;
+  int engine_move_ready;
+  int engine_move;
+  long long engine_think_starttime;
+
+  S_SEARCHINFO info;
+
   int running;
 } GUI_STATE;
-
-typedef struct {
-  int x, y, w, h;
-  char text[32];
-  int hovered;
-  void (*callback)(GUI_STATE *gui);
-} Button;
 
 extern int init_gui(GUI_STATE *state);
 extern void cleanup_gui(GUI_STATE *state);
