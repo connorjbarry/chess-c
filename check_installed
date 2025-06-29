@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# macOS Package Check Script
+# Checks if required SDL2 packages are installed via Homebrew
+
+set -e  # Exit on any error
+
+# Check if we're on macOS
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    echo "Error: This script is designed for macOS only"
+    exit 1
+fi
+
+# Check if Homebrew is installed
+if ! command -v brew >/dev/null 2>&1; then
+    echo "Error: Homebrew is not installed"
+    echo "Please install Homebrew first: https://brew.sh"
+    exit 1
+fi
+
+echo "Checking SDL2 package installation status..."
+echo "============================================"
+
+# List of required packages
+packages=("sdl2" "sdl2_image" "sdl2_ttf")
+installed_packages=()
+missing_packages=()
+
+# Check each package
+for package in "${packages[@]}"; do
+    if brew list "$package" >/dev/null 2>&1; then
+        version=$(brew list --versions "$package" | head -1)
+        echo "✓ $version"
+        installed_packages+=("$package")
+    else
+        echo "✗ $package - NOT INSTALLED"
+        missing_packages+=("$package")
+    fi
+done
+
+echo ""
+echo "Summary:"
+echo "--------"
+echo "Installed: ${#installed_packages[@]}/${#packages[@]} packages"
+
+if [ ${#missing_packages[@]} -gt 0 ]; then
+    echo "Missing packages: ${missing_packages[*]}"
+    echo ""
+    echo "To install missing packages, run:"
+    echo "brew install ${missing_packages[*]}"
+    exit 1
+else
+    echo "All required packages are installed!"
+    exit 0
+fi
